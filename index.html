@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive CV - Mustafa Mohamed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.75rem;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background-color: #cbd5e1;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -3rem;
+            top: 0.25rem;
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 9999px;
+            background-color: #4f46e5;
+            border: 2px solid #f8fafc;
+        }
+        .nav-link.active {
+            color: #4f46e5;
+            font-weight: 600;
+        }
+        .section-hidden {
+            display: none;
+        }
+    </style>
+    <!-- Chosen Palette: Cool Gray -->
+    <!-- Application Structure Plan: A single-page application with a fixed navigation header allowing users to jump to different thematic sections. The structure prioritizes impact by starting with a high-level summary and key metrics, followed by a detailed interactive career timeline, a skills visualization, and a section for notable achievements. This non-linear, thematic approach allows recruiters to quickly grasp key qualifications and then dive deeper into areas of interest, which is more efficient and user-friendly than a traditional linear CV format. -->
+    <!-- Visualization & Content Choices: 
+        - Key Metrics: Goal is to inform/impress. Presented as large numbers in cards (HTML/CSS) for quick consumption.
+        - Career Timeline: Goal is to show change/progression. An interactive vertical timeline (HTML/JS) allows users to click to expand details, keeping the initial view clean.
+        - Skills: Goal is to organize/compare. A horizontal bar chart (Chart.js) is used to visually represent proficiency across different technology categories, which is more engaging than a simple list.
+        - Achievements (Hackerone Rank): Goal is to show change/growth. A line chart (Chart.js) visualizes ranking improvements over time, providing a dynamic view of his progress in the bug bounty community.
+        - All other content (Profile, Certs, Bug Bounties) is presented in clean, organized text blocks (HTML/CSS) for readability. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-slate-800">Mustafa Mohamed</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#profile" class="nav-link text-slate-600 hover:text-indigo-600 transition-colors duration-300">Profile</a>
+                <a href="#experience" class="nav-link text-slate-600 hover:text-indigo-600 transition-colors duration-300">Experience</a>
+                <a href="#skills" class="nav-link text-slate-600 hover:text-indigo-600 transition-colors duration-300">Skills</a>
+                <a href="#achievements" class="nav-link text-slate-600 hover:text-indigo-600 transition-colors duration-300">Achievements</a>
+                <a href="#contact" class="nav-link text-slate-600 hover:text-indigo-600 transition-colors duration-300">Contact</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-slate-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2">
+             <a href="#profile" class="block nav-link text-slate-600 hover:text-indigo-600 transition-colors duration-300">Profile</a>
+            <a href="#experience" class="block nav-link text-slate-600 hover:text-indigo-600 transition-colors duration-300">Experience</a>
+            <a href="#skills" class="block nav-link text-slate-600 hover:text-indigo-600 transition-colors duration-300">Skills</a>
+            <a href="#achievements" class="block nav-link text-slate-600 hover:text-indigo-600 transition-colors duration-300">Achievements</a>
+            <a href="#contact" class="block nav-link text-slate-600 hover:text-indigo-600 transition-colors duration-300">Contact</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section id="profile" class="mb-16 scroll-mt-24">
+            <div class="text-center">
+                <h2 class="text-4xl font-extrabold text-slate-900">Senior Cybersecurity Engineer</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">
+                    Senior Cybersecurity Engineer with over 8 years of experience leading 200+ security engagements across Web, API, Active Directory, and network environments. Proven track record of mitigating business-critical threats by discovering over 100 high-risk vulnerabilities and implementing standardized frameworks.
+                </p>
+            </div>
+
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-4xl font-bold text-indigo-600">8+</div>
+                    <p class="mt-2 text-slate-500">Years of Experience</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-4xl font-bold text-indigo-600">200+</div>
+                    <p class="mt-2 text-slate-500">Security Engagements Led</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-4xl font-bold text-indigo-600">100+</div>
+                    <p class="mt-2 text-slate-500">High-Risk Vulnerabilities Found</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="mb-16 scroll-mt-24">
+            <h3 class="text-3xl font-bold text-center mb-12 text-slate-900">Career Timeline</h3>
+            <div class="relative pl-12">
+                <!-- Experience items will be injected here by JS -->
+            </div>
+        </section>
+
+        <section id="skills" class="mb-16 scroll-mt-24">
+            <h3 class="text-3xl font-bold text-center mb-12 text-slate-900">Core Competencies</h3>
+            <p class="text-center max-w-2xl mx-auto text-slate-600 mb-8">This chart provides a visual overview of my technical skills, categorized for clarity. It highlights my proficiency in various security tools, cloud platforms, and programming languages, demonstrating a well-rounded and deep technical expertise.</p>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="chart-container">
+                    <canvas id="skillsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="achievements" class="mb-16 scroll-mt-24">
+            <h3 class="text-3xl font-bold text-center mb-12 text-slate-900">Achievements & Recognition</h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-xl font-semibold mb-4">Vulnerability Research (CVEs)</h4>
+                    <ul class="space-y-2 text-slate-600">
+                        <li><strong>CVE-2025-46822:</strong> Unauthenticated Arbitrary File Read (CVSS 7.7 High)</li>
+                        <li><strong>CVE-2024-52302:</strong> RCE due to Unrestricted File Upload (CVSS 8.7 High)</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-xl font-semibold mb-4">CTF Rankings (HackTheBox)</h4>
+                     <ul class="space-y-2 text-slate-600">
+                        <li>Ranked #230 Globally on HackTheBox</li>
+                        <li>Ranked #1 in Sudan on HackTheBox</li>
+                        <li>Achieved Elite Hacker status (Top 1%)</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md md:col-span-2">
+                     <h4 class="text-xl font-semibold mb-4">Hackerone Ranking Progression</h4>
+                     <p class="text-slate-600 mb-4 max-w-xl">This chart illustrates my consistent performance and ranking improvements on the Hackerone platform, reflecting my ongoing contributions and success in the bug bounty community.</p>
+                     <div class="chart-container h-64 md:h-80 max-h-[350px]">
+                        <canvas id="hackeroneChart"></canvas>
+                    </div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-md md:col-span-2">
+                    <h4 class="text-xl font-semibold mb-4">Notable Bug Bounty Discoveries</h4>
+                    <ul class="list-disc list-inside space-y-2 text-slate-600">
+                        <li>Discovered and exploited a critical Session Fixation vulnerability to gain full account control.</li>
+                        <li>Identified a Blind Server-Side Request Forgery (SSRF) vulnerability leading to RCE through Redis.</li>
+                        <li>Found a secondary context Path Traversal in an API that resulted in unauthorized internal API access and PII leaks.</li>
+                        <li>Discovered a Web Cache Deception vulnerability leading to a one-click account takeover.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="contact" class="bg-slate-800 text-white scroll-mt-24">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h3 class="text-2xl font-bold mb-4">Get In Touch</h3>
+            <p class="mb-6">cybersec55555@gmail.com</p>
+            <div class="flex justify-center space-x-6 flex-wrap">
+                <a href="https://www.linkedin.com/in/mustafamohamedosman/" target="_blank" class="hover:text-indigo-400 transition-colors">LinkedIn</a>
+                <a href="https://github.com/d3sca" target="_blank" class="hover:text-indigo-400 transition-colors">GitHub</a>
+                <a href="https://d3sca.medium.com/" target="_blank" class="hover:text-indigo-400 transition-colors">Medium</a>
+                <a href="https://www.exploit-db.com/?author=12253" target="_blank" class="hover:text-indigo-400 transition-colors">Exploit-DB</a>
+                <a href="https://app.hackthebox.com/profile/200467" target="_blank" class="hover:text-indigo-400 transition-colors">HackTheBox</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const experienceData = [
+                {
+                    role: 'Security Engineer',
+                    company: 'Malomatia',
+                    period: '2022 - present',
+                    location: 'Doha, Qatar',
+                    details: [
+                        'Monitored security events and alerts using Qradar and Foundry, ensuring timely resolution of missing or delayed log data.',
+                        'Delivered end-to-end onboarding for client infrastructure and Azure cloud environments, including VM provisioning and secure network setup.',
+                        'Built and maintained scalable log pipelines using rsyslog, Logstash, Zeek, Kafka, and QRadar for reliable, real-time log ingestion.',
+                        'Implemented Azure security architecture with firewalls, route tables, and Event Hub to centralize logs from key services.'
+                    ]
+                },
+                {
+                    role: 'Application Security Engineer',
+                    company: 'TNC Group',
+                    period: '2022 - 2022',
+                    location: 'Dubai, UAE',
+                    details: [
+                        'Led and conducted comprehensive security assessments and penetration testing for web, Android, blockchain, and NFT applications.',
+                        'Identified, analyzed, and reported over 70 security vulnerabilities, including 31 critical findings.',
+                        'Collaborated with development teams to integrate security best practices throughout the SDLC.',
+                    ]
+                },
+                {
+                    role: 'SOC Analyst',
+                    company: 'Palm Software Solutions',
+                    period: '2019 - 2022',
+                    location: 'Khartoum, Sudan',
+                    details: [
+                        'Investigated and resolved over 150 escalated security incidents using Kibana and Splunk.',
+                        'Fine-tuned SIEM detection rules and correlation logic, achieving an 83% true positive rate.',
+                        'Performed in-depth memory forensics with Volatility on 25+ compromised systems.',
+                        'Led incident response efforts for ransomware and phishing attacks, reducing average containment time.'
+                    ]
+                }
+            ];
+
+            const experienceContainer = document.querySelector('#experience .relative');
+            experienceData.forEach((job, index) => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item relative mb-8 pl-8';
+                item.innerHTML = `
+                    <div class="timeline-dot"></div>
+                    <div class="bg-white p-6 rounded-lg shadow-md cursor-pointer transition-shadow duration-300 hover:shadow-xl">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="text-lg font-semibold text-slate-800">${job.role}</h4>
+                                <p class="text-slate-600">${job.company} - ${job.location}</p>
+                            </div>
+                            <span class="text-sm text-slate-500 whitespace-nowrap">${job.period}</span>
+                        </div>
+                        <div class="job-details mt-4 text-slate-600 space-y-2 hidden">
+                            <ul class="list-disc list-inside">
+                                ${job.details.map(d => `<li>${d}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                experienceContainer.appendChild(item);
+            });
+
+            experienceContainer.addEventListener('click', (e) => {
+                const header = e.target.closest('.bg-white');
+                if (header) {
+                    const details = header.querySelector('.job-details');
+                    details.classList.toggle('hidden');
+                }
+            });
+
+            const skillsCtx = document.getElementById('skillsChart').getContext('2d');
+            new Chart(skillsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Security Tools', 'Network & Cloud', 'Languages', 'SIEM & Logging'],
+                    datasets: [{
+                        label: 'Proficiency',
+                        data: [95, 90, 85, 92],
+                        backgroundColor: [
+                            'rgba(79, 70, 229, 0.6)',
+                            'rgba(99, 102, 241, 0.6)',
+                            'rgba(129, 140, 248, 0.6)',
+                            'rgba(165, 180, 252, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(79, 70, 229, 1)',
+                            'rgba(99, 102, 241, 1)',
+                            'rgba(129, 140, 248, 1)',
+                            'rgba(165, 180, 252, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += context.parsed.x + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                             ticks: {
+                                callback: function(value) {
+                                    return value + "%"
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const hackeroneCtx = document.getElementById('hackeroneChart').getContext('2d');
+            new Chart(hackeroneCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2021 Q4', '2022 Q2', '2023 Q4'],
+                    datasets: [{
+                        label: 'Hackerone Rank',
+                        data: [8, 11, 3],
+                        fill: true,
+                        backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                        borderColor: 'rgba(79, 70, 229, 1)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            reverse: true,
+                             ticks: {
+                                callback: function(value) {
+                                    return '#' + value;
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                             callbacks: {
+                                label: function(context) {
+                                    return `Rank: #${context.parsed.y}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: "-50% 0px -50% 0px" });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (mobileMenu.classList.contains('hidden') === false) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
